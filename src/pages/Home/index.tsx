@@ -26,7 +26,7 @@ function Home() {
 
     return (
         <>
-            Home
+            Hello World
         </>
     );
 }
