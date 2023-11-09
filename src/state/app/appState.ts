@@ -1,12 +1,13 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Employee } from '../../models/Employee';
 
 interface AppState {
-    value: number
+    employees: [Employee]
     loading: boolean
 }
 
 const initialState: AppState = {
-    value: 0,
+    employees: [],
     loading: false
 }
 
@@ -15,7 +16,7 @@ const appSlice = createSlice({
     initialState,
     reducers: {
         setValue: (state: AppState, action: PayloadAction<number>) => {
-            state.value = action.payload;
+            //state.value = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -24,9 +25,23 @@ const appSlice = createSlice({
             state.loading = true;
         })
         .addCase(makeApiCall.fulfilled, (state: AppState, action: PayloadAction<number>) => {
-            state.value = action.payload;
+            //state.value = action.payload;
             state.loading = false;
-        });
+        })
+        .addCase(getEmployees.pending, (state: AppState) => {
+            state.loading = true;
+        })
+        .addCase(getEmployees.fulfilled, (state: AppState, action: PayloadAction<[Employee]>) => {
+            state.employees = action.payload;
+            state.loading = false;
+        })
+        .addCase(createEmployee.pending, (state: AppState) => {
+            state.loading = true;
+        })
+        .addCase(createEmployee.fulfilled, (state: AppState) => {
+            state.loading = false;
+        })
+        ;
     }
 });
 
@@ -38,6 +53,34 @@ export const makeApiCall = createAsyncThunk(
     }
 )
 
+export const getEmployees = createAsyncThunk(
+    "app/getEmployees",
+    async () => {
+        let response = await fetch('https://procom-interview-employee-test.azurewebsites.net/Employee', {
+            method: "GET", 
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+        return response.json();
+    }
+)
+
+export const createEmployee = createAsyncThunk(
+    "app/createEmployee",
+    async (employee: Employee) => {
+        await fetch('https://procom-interview-employee-test.azurewebsites.net/Employee', {
+            method: "POST", 
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(employee), 
+          });
+    }
+)
+
 export const { setValue } = appSlice.actions;
 
 export default appSlice.reducer;
+
+

@@ -3,6 +3,8 @@ import AppBar from '@mui/material/AppBar';
 
 import { useTheme, Theme } from '@mui/material';
 
+import { Link } from 'react-router-dom'
+
 const useStyles = (theme: Theme) => {
   return {
 
@@ -16,7 +18,8 @@ function Header() {
 
   return (
     <AppBar position="sticky">
-        Header
+        <Link to="/">Home</Link>
+        <Link to="/create-employee">Create Employee</Link>
     </AppBar>
   );
 }
