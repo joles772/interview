@@ -1,5 +1,3 @@
-import React from 'react';
-import logo from './logo.svg';
 import Box from '@mui/material/Box';
 import Router from './Router';
 import theme from './Theme'

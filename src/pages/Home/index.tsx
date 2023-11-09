@@ -4,7 +4,7 @@ import { Theme, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../../state/store';
-import { setValue, makeApiCall } from '../../state/app/appState';
+import { setValue, /*makeApiCall*/ } from '../../state/app/appState';
 
 const useStyles = (theme: Theme) => {
     return {
