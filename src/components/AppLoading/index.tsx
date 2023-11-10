@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 
 export default function AppLoading() {
     return (
-
         <Backdrop
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={true}

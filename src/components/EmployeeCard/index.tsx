@@ -12,14 +12,23 @@ import { Employee } from '../../models/Employee';
 import { Address } from '../../models/Address';
 
 interface Props {
-    employee: Employee,
+    employee: Employee
     onView: Function
+    onDelete: Function
+    onEdit: Function
 }
 
-export default function EmployeeCard({ employee, onView }: Props) {
-
+export default function EmployeeCard({ employee, onView, onDelete, onEdit }: Props) {
     const handleGoToDetail = () => {
         onView(employee.id);
+    }
+
+    const handleDelete = () => {
+        onDelete(employee.id);
+    }
+
+    const handleEdit = () => {
+        onEdit(employee.id)
     }
 
     return (
@@ -40,8 +49,8 @@ export default function EmployeeCard({ employee, onView }: Props) {
             </CardContent>
             <CardActions>
                 <Button variant="contained" color="primary" size="small" onClick={handleGoToDetail}>View</Button>
-                <Button variant="contained" color="primary" size="small" onClick={handleGoToDetail}>Edit</Button>
-                <Button variant="contained" color="primary" size="small" onClick={handleGoToDetail}>Delete</Button>
+                <Button variant="contained" color="primary" size="small" onClick={handleEdit}>Edit</Button>
+                <Button variant="contained" color="primary" size="small" onClick={handleDelete}>Delete</Button>
             </CardActions>
         </Card>
     );

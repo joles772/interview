@@ -9,9 +9,10 @@ import { Address } from '../../models/Address';
 
 interface Props {
     address: Address,
+    onDelete?: Function
 }
 
-export default function EmployeeCard({ address }: Props) {
+export default function EmployeeCard({ address, onDelete }: Props) {
     return (
         <Card>
             <CardContent>
@@ -27,6 +28,9 @@ export default function EmployeeCard({ address }: Props) {
                 {
                     //employee?.addresses.map((address: Address) => <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>{address.streetName} {address.postalCode}</Typography>);
                 }
+                {onDelete && <CardActions>
+                    <Button>Delete</Button>
+                </CardActions>}
             </CardContent>
         </Card>
     );

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../../state/store';
 import { getEmployees } from '../../state/app/appState';
+import { deleteEmployee } from '../../state/employee/employeeState';
 
 import { Employee } from '../../models/Employee';
 
@@ -31,7 +32,8 @@ function Home() {
     const navigate = useNavigate();
 
     const employees = useSelector((state: RootState) => state.app.employees);
-    const loading = useSelector((state: RootState) => state.app.loading);
+    const appLoading = useSelector((state: RootState) => state.app.loading);
+    const employeeLoading = useSelector((state: RootState) => state.employee.loading);
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -43,11 +45,19 @@ function Home() {
         navigate(`/view-employee/${id}`);
     }
 
+    const handleDelete = (id: String) => {
+        dispatch(deleteEmployee(id));
+    }
+
+    const handleEdit = (id: String) => {
+        navigate(`/edit-employee/${id}`);
+    }
+
     useEffect(() => {
         handleGetEmployees();
     }, []);
 
-    if (loading) {
+    if (appLoading || employeeLoading) {
         return <PageLoading/>;
     }
 
@@ -58,9 +68,9 @@ function Home() {
             </Typography>
             
             {
-                employees?.map((employee: Employee) => <Grid container>
+                employees?.map((employee: Employee) => <Grid container key={employee.id}>
                 <Grid item xs={12} sm={6} md={3}>
-                    <EmployeeCard employee={employee} onView={handleGoToDetail}/>
+                    <EmployeeCard employee={employee} onView={handleGoToDetail} onDelete={handleDelete} onEdit={handleEdit}/>
                 </Grid>
             </Grid>)
             }

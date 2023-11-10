@@ -1,4 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { useParams } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid';
+
+import { getEmployee } from '../../state/employee/employeeState';
 
 import { Grid, Theme, useTheme, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +19,11 @@ import AddressCreateView from '../../components/AddressCreateView';
 import AddressCard from '../../components/AddressCard';
 import PageLoading from '../../components/PageLoading';
 
+//Adds localId field to Address type. This field is used for rendering/editing the addresses.
+interface AddressWithId extends Address {
+    localId: string
+}
+
 const useStyles = (theme: Theme) => {
     return {
         spacing: {
@@ -27,6 +37,9 @@ const useStyles = (theme: Theme) => {
             justifyContent: 'flex-end',
             marginTop: theme.spacing(2)
         },
+        button: {
+            marginRight: theme.spacing(1)
+        }
     }
 }
 
@@ -35,7 +48,10 @@ function CreateEmployee() {
 
     const styles = useStyles(theme);
 
-    const loading = useSelector((state: RootState) => state.app.loading);
+    let { id } = useParams();
+
+    const employee = useSelector((state: RootState) => state.employee.employee);
+    const loading = useSelector((state: RootState) => state.employee.loading);
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -44,7 +60,31 @@ function CreateEmployee() {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    const [addresses, setAddresses] = useState([]);
+    const [addresses, setAddresses] = useState<AddressWithId[]>([]);
+
+    const handleGetEmployee = () => {
+        dispatch(getEmployee(id as String));
+    }
+
+    useEffect(() => {
+        if(id) {
+            handleGetEmployee();
+        }
+    }, []);
+
+    useEffect(() => {
+        setFirstName(`${employee?.firstName}`);
+        setLastName(`${employee?.lastName}`);
+        setEmail(`${employee?.email}`);
+        setPhoneNumber(`${employee?.email}`);
+        //Map address to add unique id for editing/rendering
+        let mappedAddresses = employee?.addresses?.map((address: Address) => ({
+            localId: uuidv4(),
+            ...address
+        }));
+        console.log('mappedAddresses', mappedAddresses);
+        setAddresses(mappedAddresses || []);
+    }, [employee]);
 
     const handleSubmit = () => {
         let employee = {
@@ -54,11 +94,16 @@ function CreateEmployee() {
             phoneNumber,
             addresses: []
         }
-        dispatch(createEmployee(employee));
-        console.log('Data', employee)
+        if(id) {
+
+        } else {
+            dispatch(createEmployee(employee));
+        }
     }
 
-    const handleOnAdd = (address: Address) => {
+    const handleOnAdd = (address: AddressWithId) => {
+        /*Create a shallow copy of arrray stored in addresses.
+          Cannot opperate directly on useState() addresses*/
         let data = JSON.parse(JSON.stringify(addresses));
 
         data.push(address);
@@ -75,7 +120,7 @@ function CreateEmployee() {
     return (
         <>
             <Typography variant="h4" sx={styles.spacing}>
-                Create Employee:
+                { id ? 'Edit' : 'Create'} Employee:
             </Typography>
             <Grid container spacing={2} sx={styles.spacing}>
                 <Grid item xs={12} sm={6}>
@@ -125,8 +170,8 @@ function CreateEmployee() {
             </Grid>
             <Typography variant='h6' sx={styles.spacing}>Addresses:</Typography>
             <Grid container sx={styles.spacing}>
-                {addresses.map((address: Address) => (
-                    <Grid item xs={12} sm={6} md={3}>
+                {addresses.map((address: AddressWithId) => (
+                    <Grid item xs={12} sm={6} md={3} key={address.localId}>
                         <AddressCard address={address} />
                     </Grid>
                 ))}
@@ -134,6 +179,11 @@ function CreateEmployee() {
 
             <AddressCreateView onAdd={handleOnAdd}/>
             <Box sx={styles.controlsWrapper}>
+                {
+                <Button variant="contained" color="primary" type="button" onClick={handleSubmit} sx={styles.button}>
+                    Cancel
+                </Button>
+                }
                 <Button variant="contained" color="primary" type="button" onClick={handleSubmit}>
                     Save
                 </Button>

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
 
 import { Theme, useTheme, Paper, Typography, TextField, Button, Grid, Box } from '@mui/material'
 
@@ -33,6 +35,9 @@ function EmployeeView({ onAdd }: Props) {
 
     const styles = useStyles(theme);
 
+    //local id for rendering/deleting addresses. Not sent to the api;
+    const localId = uuidv4();
+
     const [streetName, setStreetName] = useState('');
     const [postalCode, setPostalCode] = useState('');
     const [apartmentNumber, setApartmentNumber] = useState('');
@@ -41,6 +46,7 @@ function EmployeeView({ onAdd }: Props) {
 
     const handleSubmit = () => {
         onAdd({
+            localId,
             streetName,
             postalCode,
             apartmentNumber,

@@ -42,7 +42,7 @@ function ViewEmployee() {
     const styles = useStyles(theme);
 
     const employee = useSelector((state: RootState) => state.employee.employee);
-    const loading = useSelector((state: RootState) => state.app.loading);
+    const loading = useSelector((state: RootState) => state.employee.loading);
 
     const dispatch = useDispatch<AppDispatch>();
 
