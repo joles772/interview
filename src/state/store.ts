@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import appReducer from './app/appState.ts'
+import employeeReducer from './employee/employeeState.ts'
 
 
 export const store = configureStore({
     reducer: {
-        app: appReducer
+        app: appReducer,
+        employee: employeeReducer
     }
 });
 

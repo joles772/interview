@@ -2,7 +2,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Employee } from '../../models/Employee';
 
 interface AppState {
-    employees: [Employee]
+    employees: Employee[]
     loading: boolean
 }
 
@@ -21,13 +21,6 @@ const appSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        .addCase(makeApiCall.pending, (state: AppState) => {
-            state.loading = true;
-        })
-        .addCase(makeApiCall.fulfilled, (state: AppState, action: PayloadAction<number>) => {
-            //state.value = action.payload;
-            state.loading = false;
-        })
         .addCase(getEmployees.pending, (state: AppState) => {
             state.loading = true;
         })
@@ -45,22 +38,11 @@ const appSlice = createSlice({
     }
 });
 
-export const makeApiCall = createAsyncThunk(
-    "app/makeApiCall",
-    async (value: number) => {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        return value;
-    }
-)
-
 export const getEmployees = createAsyncThunk(
     "app/getEmployees",
     async () => {
         let response = await fetch('https://procom-interview-employee-test.azurewebsites.net/Employee', {
             method: "GET", 
-            headers: {
-              "Content-Type": "application/json",
-            },
           });
         return response.json();
     }

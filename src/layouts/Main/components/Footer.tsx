@@ -17,7 +17,6 @@ const Footer = () => {
 
   return (
     <Box>
-        Footer
     </Box>
   )
 };

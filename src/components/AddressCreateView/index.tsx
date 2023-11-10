@@ -1,22 +1,43 @@
 import React, { useState } from 'react';
 
-import { Paper, Typography, TextField, Button } from '@mui/material'
+import { Theme, useTheme, Paper, Typography, TextField, Button, Grid, Box } from '@mui/material'
 
 import { Employee } from '../../models/Employee';
+
+const useStyles = (theme: Theme) => {
+    return {
+        root: {
+            padding: theme.spacing(2)
+        },
+        textField: {
+            width: '100%'
+        },
+        controlsWrapper: {
+            display: 'flex',
+            justifyContent: 'flex-end'
+        },
+        title: {
+            marginBottom: theme.spacing(1)
+        }
+    }
+}
+
 
 interface Props {
     onAdd: Function
 }
 
-function EmployeeView (props: Props) {
+function EmployeeView({ onAdd }: Props) {
 
-    const { onAdd } = props;
+    const theme = useTheme();
 
-    const [ streetName, setStreetName ] = useState(''); 
-    const [ postalCode, setPostalCode ] = useState(''); 
-    const [ apartmentNumber, setApartmentNumber ] = useState(''); 
-    const [ stateValue, setStateValue ] = useState(''); 
-    const [ country, setCountry] = useState(''); 
+    const styles = useStyles(theme);
+
+    const [streetName, setStreetName] = useState('');
+    const [postalCode, setPostalCode] = useState('');
+    const [apartmentNumber, setApartmentNumber] = useState('');
+    const [stateValue, setStateValue] = useState('');
+    const [country, setCountry] = useState('');
 
     const handleSubmit = () => {
         onAdd({
@@ -26,55 +47,68 @@ function EmployeeView (props: Props) {
             state: stateValue,
             country
         })
-    } 
+    }
 
     return (
-        <Paper>
-            <h4>Address Create</h4>
-            <TextField
-                    style={{ width: "200px", margin: "5px" }}
-                    type="text"
-                    label="Street Name"
-                    variant="outlined"
-                    value={streetName}
-                    onChange={(event: any) => setStreetName(event.target.value)}
-            />
-            <TextField
-                    style={{ width: "200px", margin: "5px" }}
-                    type="text"
-                    label="Postal Code"
-                    variant="outlined"
-                    value={postalCode}
-                    onChange={(event: any) => setPostalCode(event.target.value)}
-            />
-            <TextField
-                    style={{ width: "200px", margin: "5px" }}
-                    type="number"
-                    label="Apartment Number"
-                    variant="outlined"
-                    value={apartmentNumber}
-                    onChange={(event: any) => setApartmentNumber(event.target.value)}
-            />
-            <TextField
-                    style={{ width: "200px", margin: "5px" }}
-                    type="text"
-                    label="State"
-                    variant="outlined"
-                    value={stateValue}
-                    onChange={(event: any) => setStateValue(event.target.value)}
-            />
-            <TextField
-                    style={{ width: "200px", margin: "5px" }}
-                    type="text"
-                    label="Country"
-                    variant="outlined"
-                    value={country}
-                    onChange={(event: any) => setCountry(event.target.value)}
-            />
-            <Button variant="contained" color="primary" type="button" onClick={handleSubmit}>
-                    Save
+        <Paper sx={styles.root}>
+            <Typography variant='h6' sx={styles.title}>Add New Address</Typography>
+            <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        type="text"
+                        label="Street Name"
+                        variant="outlined"
+                        value={streetName}
+                        onChange={(event: any) => setStreetName(event.target.value)}
+                        sx={styles.textField}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        type="text"
+                        label="Postal Code"
+                        variant="outlined"
+                        value={postalCode}
+                        onChange={(event: any) => setPostalCode(event.target.value)}
+                        sx={styles.textField}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        type="number"
+                        label="Apartment Number"
+                        variant="outlined"
+                        value={apartmentNumber}
+                        onChange={(event: any) => setApartmentNumber(event.target.value)}
+                        sx={styles.textField}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        type="text"
+                        label="State"
+                        variant="outlined"
+                        value={stateValue}
+                        onChange={(event: any) => setStateValue(event.target.value)}
+                        sx={styles.textField}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        type="text"
+                        label="Country"
+                        variant="outlined"
+                        value={country}
+                        onChange={(event: any) => setCountry(event.target.value)}
+                        sx={styles.textField}
+                    />
+                </Grid>
+            </Grid>
+            <Box sx={styles.controlsWrapper}>
+                <Button variant="contained" color="primary" type="button" onClick={handleSubmit}>
+                    Add
                 </Button>
-                <br />
+            </Box>
         </Paper>
     )
 }

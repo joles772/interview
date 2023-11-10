@@ -5,13 +5,25 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 
 //Mui
-import { Container } from "@mui/material";
+import { Theme, useTheme, Container } from "@mui/material";
+
+const useStyles = (theme: Theme) => {
+  return {
+    contentWrapper: {
+      paddingTop: theme.spacing(2)
+    }
+  }
+}
 
 const Main = () => {
+  const theme = useTheme();
+
+  const styles = useStyles(theme);
+
   return (
     <>
       <Header />
-      <Container>
+      <Container sx={styles.contentWrapper}>
         <Outlet />
       </Container>
       <Footer />

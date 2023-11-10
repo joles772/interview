@@ -1,13 +1,16 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 
-import { useTheme, Theme } from '@mui/material';
+import { useTheme, Theme, Button, Container, Link, Typography } from '@mui/material';
 
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 
 const useStyles = (theme: Theme) => {
   return {
-
+    link: {
+      color: theme.palette.primary.contrastText,
+      padding: theme.spacing(1)
+    }
   }
 }
 
@@ -18,8 +21,11 @@ function Header() {
 
   return (
     <AppBar position="sticky">
-        <Link to="/">Home</Link>
-        <Link to="/create-employee">Create Employee</Link>
+      <Container maxWidth="lg">
+        <Link component={RouterLink} to="/"><Button variant='text' sx={styles.link}>View Employees</Button></Link>
+        <Link component={RouterLink} to="/create-employee" sx={styles.link}><Button variant='text' sx={styles.link}>Create Employee</Button></Link>
+      </Container>
+        
     </AppBar>
   );
 }
