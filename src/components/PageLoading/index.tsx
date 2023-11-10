@@ -1,7 +1,6 @@
-import * as React from 'react';
+//Mui, separate path imports to ensure optimal load time
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import Button from '@mui/material/Button';
 
 export default function PageLoading() {
     return (

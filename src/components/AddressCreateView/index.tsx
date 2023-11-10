@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
+//Id generator
 import { v4 as uuidv4 } from 'uuid';
 
-
-import { Theme, useTheme, Paper, Typography, TextField, Button, Grid, Box } from '@mui/material'
-
-import { Employee } from '../../models/Employee';
+//Mui, separate path imports to ensure optimal load time
+import { Theme } from '@mui/material/styles';
+import useTheme from '@mui/material/styles/useTheme';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 
 const useStyles = (theme: Theme) => {
     return {
@@ -52,7 +59,12 @@ function EmployeeView({ onAdd }: Props) {
             apartmentNumber,
             state: stateValue,
             country
-        })
+        });
+        setStreetName('');
+        setPostalCode('');
+        setApartmentNumber('');
+        setStateValue('');
+        setCountry('');
     }
 
     return (

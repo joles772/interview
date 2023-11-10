@@ -4,8 +4,10 @@ import { Outlet, /*Link*/ } from "react-router-dom";
 import Header from './components/Header'
 import Footer from './components/Footer'
 
-//Mui
-import { Theme, useTheme, Container } from "@mui/material";
+//Mui, separate path imports to ensure optimal load time
+import { Theme } from "@mui/material/styles";
+import useTheme from "@mui/material/styles/useTheme";
+import Container from "@mui/material/Container";
 
 const useStyles = (theme: Theme) => {
   return {

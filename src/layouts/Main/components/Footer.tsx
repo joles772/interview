@@ -1,7 +1,9 @@
-import { Theme, useTheme } from '@mui/material';
+//import { Theme, useTheme } from '@mui/material';
 
-//Mui
+//Mui, separate path imports to ensure optimal load time
 import Box from "@mui/material/Box";
+import { Theme } from "@mui/material/styles";
+import useTheme from "@mui/material/styles/useTheme";
 
 const useStyles = (theme: Theme) => {
   return {

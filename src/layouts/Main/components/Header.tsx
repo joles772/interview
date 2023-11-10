@@ -1,9 +1,18 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 
-import { useTheme, Theme, Button, Container, Link, Typography } from '@mui/material';
+//Routing
+import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 
-import { Link as RouterLink } from 'react-router-dom'
+//Redux
+import { useDispatch } from 'react-redux';
+
+//Mui, separate path imports to ensure optimal load time
+import useTheme from '@mui/material/styles/useTheme';
+import { Theme } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
+
 
 const useStyles = (theme: Theme) => {
   return {
@@ -19,11 +28,17 @@ function Header() {
 
   const styles = useStyles(theme);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const dispatch = useDispatch();
+
+
   return (
     <AppBar position="sticky">
       <Container maxWidth="lg">
         <Link component={RouterLink} to="/"><Button variant='text' sx={styles.link}>View Employees</Button></Link>
-        <Link component={RouterLink} to="/create-employee" sx={styles.link}><Button variant='text' sx={styles.link}>Create Employee</Button></Link>
+        <Link component={RouterLink} sx={styles.link} to="/create-employee"><Button variant='text' sx={styles.link}>Create Employee</Button></Link>
       </Container>
         
     </AppBar>
